@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     List<dynamic>? responseData;
     List<ItemShopData> dataItems = List.empty(growable: true);
 
-    var response = await Dio().get(url);
+    Response<dynamic> response = await Dio().get(url);
     if (response.statusCode == 200) {
       responseData = response.data;
 
