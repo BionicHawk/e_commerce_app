@@ -13,17 +13,18 @@ class EditItemMenu extends StatefulWidget {
 }
 
 class _EditItemMenuState extends State<EditItemMenu> {
+  int quantity = 0;
 
   void onAdd() {
     setState(() {
-      widget.item.quantity++;
+      quantity++;
     });
   }
 
   void onLess() {
-    if (widget.item.quantity > 1) {
+    if (quantity > 1) {
       setState(() {
-        widget.item.quantity--;
+        quantity--;
       });
     }
   }
@@ -32,6 +33,14 @@ class _EditItemMenuState extends State<EditItemMenu> {
   void dispose() {
     super.dispose();
     widget.onDispose;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      quantity = widget.item.quantity;
+    });
   }
 
   @override
@@ -55,6 +64,10 @@ class _EditItemMenuState extends State<EditItemMenu> {
       child: Divider(),
     );
 
+    double getPreCost() {
+      return widget.item.item.price * quantity;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -70,7 +83,7 @@ class _EditItemMenuState extends State<EditItemMenu> {
         ),
         divider,
         Buttons(
-          quantity: widget.item.quantity,
+          quantity: quantity,
           onAdd: () {
             onAdd();
           },
@@ -78,7 +91,18 @@ class _EditItemMenuState extends State<EditItemMenu> {
             onLess();
           },
         ),
-        divider
+        divider,
+        SubTotalTag(cost: getPreCost()),
+        divider,
+        ProcedureButtons(
+          onNext: () {
+            widget.item.quantity = quantity;
+            Navigator.of(context).pop();
+          },
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+        )
       ],
     );
   }
@@ -168,6 +192,52 @@ class Buttons extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class SubTotalTag extends StatelessWidget {
+  const SubTotalTag({super.key, required this.cost});
+  final double cost;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          "\$${cost.toStringAsFixed(2)} USD",
+          style: TextStyle(fontSize: 18, color: Colors.green.shade700),
+        ),
+      ),
+    );
+  }
+}
+
+class ProcedureButtons extends StatelessWidget {
+  const ProcedureButtons({super.key, this.onCancel, this.onNext});
+
+  final VoidCallback? onCancel;
+  final VoidCallback? onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+              ElevatedButton(onPressed: onCancel, child: const Text("Cancel")),
+            )),
+        Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FilledButton(
+                  onPressed: onNext, child: const Text("Modify")),
+            ))
+      ],
     );
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:e_commerce_app/common/cart_info.dart';
 import 'package:e_commerce_app/screens/shopping_cart/shopping_cart_screen.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +48,8 @@ class ItemList extends StatelessWidget {
       ],
     );
 
-    void showEditItemMenu() {
-      showModalBottomSheet(
+    Future<void> showEditItemMenu() async {
+      await showModalBottomSheet(
           context: context,
           builder: (context) {
             return EditItemMenu(item: item, onDispose: () {
@@ -70,8 +72,13 @@ class ItemList extends StatelessWidget {
               children: [
                 CartButton(
                     icon: Icons.edit,
-                    function: () {
-                      showEditItemMenu();
+                    function: () async {
+                      await showEditItemMenu();
+                      Navigator.of(context).pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ShoppingCartScreen()));
                     }),
                 CartButton(
                   icon: Icons.delete,
