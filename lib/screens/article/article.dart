@@ -1,5 +1,9 @@
+import 'dart:ffi';
+
 import 'package:e_commerce_app/common/DTO/item_shop_data.dart';
 import 'package:e_commerce_app/common/settings.dart';
+import 'package:e_commerce_app/screens/article/components/add_to_cart.dart';
+import 'package:e_commerce_app/screens/article/components/add_to_cart_menu.dart';
 import 'package:e_commerce_app/screens/article/components/description_widget.dart';
 import 'package:e_commerce_app/screens/article/components/loading_widget.dart';
 import 'package:e_commerce_app/screens/article/components/main_article_info.dart';
@@ -41,6 +45,14 @@ class _ArticleScreenState extends State<ArticleScreen> {
     EdgeInsetsGeometry specialPadding =
         const EdgeInsets.only(left: 8.0, bottom: 8.0, right: 8.0);
 
+    void showCartMenu() {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) => SizedBox(
+                child: AddToCartMenu(item: widget.data),
+              ));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.data.title),
@@ -59,6 +71,15 @@ class _ArticleScreenState extends State<ArticleScreen> {
         DescriptionWidget(
           articleName: widget.data.title,
           articleDescription: widget.data.description,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: AddToCartBtn(
+            function: () {
+              print("Trying to open menu...");
+              showCartMenu();
+            },
+          ),
         )
       ]),
     );

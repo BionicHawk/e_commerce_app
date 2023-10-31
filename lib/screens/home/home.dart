@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:e_commerce_app/common/DTO/item_shop_data.dart';
 import 'package:e_commerce_app/common/settings.dart';
 import 'package:e_commerce_app/screens/home/components/item_shop.dart';
+import 'package:e_commerce_app/screens/shopping_cart/shopping_cart_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,10 +54,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     sizeForItems = (MediaQuery.of(context).size.width * 0.5) - 20;
 
+    void goToMyShoppingCart() {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ShoppingCartScreen()));
+    }
+
+    final header = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Text("ShopHere"),
+        const Expanded(child: Row()),
+        SizedBox(
+            width: 48,
+            height: 48,
+            child: FloatingActionButton(
+              onPressed: () {
+                goToMyShoppingCart();
+              },
+              shape: const CircleBorder(),
+              elevation: 0,
+              child: const Icon(Icons.shopping_cart),
+            ))
+      ],
+    );
+
     return Scaffold(
         appBar: AppBar(
           leading: const Icon(Icons.shopify_rounded),
-          title: const Text("ShopHere"),
+          title: header,
         ),
         body: gotItems
             ? GridView.count(
