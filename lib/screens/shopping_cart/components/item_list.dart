@@ -37,7 +37,7 @@ class ItemList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          textDelimiter(item.item.title, 16),
+          textDelimiter(item.item.title, 14),
           style: const TextStyle(fontSize: 18),
         ),
         Text("${item.quantity} pieces"),

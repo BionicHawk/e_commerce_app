@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void lockScreen(bool enable) {
@@ -30,4 +31,24 @@ String textDelimiter(String text, int length) {
   }
 
   return text;
+}
+
+Future<void> showSuccesfulAlert(BuildContext context, String title,
+    String message) async {
+  final buttons = [
+    // ignore: prefer_const_constructors
+    FilledButton(onPressed: () async {
+      Navigator.of(context).pop();
+    }, child: Text("Ok")),
+  ];
+
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("ℹ $title"),
+          content: Text(message),
+          actions: buttons,
+        );
+      });
 }
