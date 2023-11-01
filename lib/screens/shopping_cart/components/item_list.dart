@@ -8,10 +8,9 @@ import '../../../common/settings.dart';
 import 'edit_item_menu.dart';
 
 class ItemList extends StatelessWidget {
-  const ItemList({super.key, required this.item, this.whenMenuOff});
+  const ItemList({super.key, required this.item});
 
   final ShopingItem item;
-  final VoidCallback? whenMenuOff;
 
   void DeleteThis() {
     CartInfo.shopingList.remove(item);
@@ -48,15 +47,19 @@ class ItemList extends StatelessWidget {
       ],
     );
 
+    void refreshMainScreen() {
+      Navigator.of(context).pop();
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ShoppingCartScreen()));
+    }
+
     Future<void> showEditItemMenu() async {
       await showModalBottomSheet(
           context: context,
           builder: (context) {
-            return EditItemMenu(item: item, onDispose: () {
-              print("Executing...");
-              Navigator.of(context).pop();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ShoppingCartScreen()));
-            },);
+            return EditItemMenu(
+              item: item,
+            );
           });
     }
 
@@ -74,21 +77,13 @@ class ItemList extends StatelessWidget {
                     icon: Icons.edit,
                     function: () async {
                       await showEditItemMenu();
-                      Navigator.of(context).pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ShoppingCartScreen()));
+                      refreshMainScreen();
                     }),
                 CartButton(
                   icon: Icons.delete,
                   function: () {
                     DeleteThis();
-                    Navigator.of(context).pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ShoppingCartScreen()));
+                    refreshMainScreen();
                   },
                 )
               ],

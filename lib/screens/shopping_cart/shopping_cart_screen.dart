@@ -22,9 +22,6 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
     for (var item in CartInfo.shopingList) {
       listItemList.add(ItemList(
         item: item,
-        whenMenuOff: () {
-          initState();
-        },
       ));
     }
 

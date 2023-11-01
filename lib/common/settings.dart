@@ -37,7 +37,7 @@ Future<void> showSuccesfulAlert(BuildContext context, String title,
     String message) async {
   final buttons = [
     // ignore: prefer_const_constructors
-    FilledButton(onPressed: () async {
+    FilledButton(onPressed: () {
       Navigator.of(context).pop();
     }, child: Text("Ok")),
   ];

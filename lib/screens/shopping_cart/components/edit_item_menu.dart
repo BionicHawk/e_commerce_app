@@ -3,10 +3,9 @@ import 'package:e_commerce_app/common/settings.dart';
 import 'package:flutter/material.dart';
 
 class EditItemMenu extends StatefulWidget {
-  const EditItemMenu({super.key, required this.item, this.onDispose});
+  const EditItemMenu({super.key, required this.item});
 
   final ShopingItem item;
-  final VoidCallback? onDispose;
 
   @override
   State<EditItemMenu> createState() => _EditItemMenuState();
@@ -27,12 +26,6 @@ class _EditItemMenuState extends State<EditItemMenu> {
         quantity--;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget.onDispose;
   }
 
   @override
